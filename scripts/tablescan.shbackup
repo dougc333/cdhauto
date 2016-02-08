@@ -1,0 +1,10 @@
+#!/bin/bash -p
+
+
+#all table scan;test reads 
+impala-shell -d tablescan <<EOF
+
+select count(*) from test;
+EOF
+
+
