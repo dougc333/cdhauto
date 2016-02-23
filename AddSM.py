@@ -33,18 +33,19 @@ from cm_api.endpoints.parcels import get_parcel
 from time import sleep
 import re
 
-
-
+from read import Constants
+c=Constants()
 #these constants are in /etc/cloudera-scm-server/db.mgmt.properties
 #parse once we have working code
-#AMON_PASSWORD="jz0qyod6kS"
-#RMAN_PASSWORD="J0s5XD6rTf
-CM_HOST=socket.gethostname()
+AMON_PASSWORD=c.dict['com.cloudera.cmf.ACTIVITYMONITOR.db.password'].rstrip()
+RMAN_PASSWORD=c.dict['com.cloudera.cmf.REPORTSMANAGER.db.password'].rstrip()
+#CM_HOST=socket.gethostname()
+CM_HOST='hadoop.is-very-good.org'
 
 # without the roles we end up with MGMT which cant start
 AMON_ROLENAME="ACTIVITYMONITOR"
 AMON_ROLE_CONFIG = {
-   'firehose_database_host': 'r2341-d5-us31.dssd.com:7432',
+   'firehose_database_host': CM_HOST+':7432',
    'firehose_database_user': 'amon',
    'firehose_database_password': AMON_PASSWORD,
    'firehose_database_type': 'postgresql',
@@ -63,7 +64,7 @@ SMON_ROLENAME = "SERVICEMONITOR"
 SMON_ROLE_CONFIG = {u'firehose_heapsize': u'268435456', u'firehose_non_java_memory_bytes': u'1610612736' }
 RMAN_ROLENAME = "REPORTMANAGER"
 RMAN_ROLE_CONFIG = {
-   'headlamp_database_host': 'r2341-d5-us31.dssd.com:7432',
+   'headlamp_database_host': CM_HOST+':7432',
    'headlamp_database_user': 'rman',
    'headlamp_database_password': RMAN_PASSWORD,
    'headlamp_database_type': 'postgresql',
